@@ -1,0 +1,8 @@
+{
+    "Main Menu": {
+        "min_width": 300,
+        "min_height": 200,
+        "max_columns": 3,
+        "max_rows": 50
+    }
+}
