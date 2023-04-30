@@ -14,6 +14,8 @@ with open(GUI_CONFIG_PATH, "r") as fp:
 
 IMAGES = join(RESOURCES, "images")
 
+GIF_CREATION_IMAGES = join(RESOURCES, "gif-creation-images")
+
 VIDEOS = join(RESOURCES, "videos")
 
 
