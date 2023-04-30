@@ -17,25 +17,19 @@ class Gif(QMovie):
 
     def updateGif(self):
         parent_size = self.parent_object.size()
-        w, h = parent_size.width(), parent_size.height()
-        min_wh = min(w, h)
-        current_image = self.currentPixmap()
+        parent_w, parent_h = parent_size.width(), parent_size.height()
 
-        current_image_w, current_image_h = current_image.width(), current_image.height()
-        if current_image_w > current_image_h:
-            diff = current_image_w / current_image_h
-            h = int(h / diff)
-        elif current_image_w < current_image_h:
-            diff = current_image_h / current_image_w
-            w = int(w / diff)
-        else:
-            pass
-        w -= 5
-        h -= 5
-        new_size = QSize(w, h)
+        p_map = self.currentPixmap()
 
-        self.parent_object.setIcon(QIcon(current_image))
-        self.parent_object.setIconSize(new_size)
+        new_p_map_size = (
+            p_map.scaledToWidth(parent_w).size()
+            if parent_w < parent_h
+            else p_map.scaledToHeight(parent_h).size()
+        )
+        new_p_map_size.setWidth(new_p_map_size.width() - 20)
+        new_p_map_size.setHeight(new_p_map_size.height() - 20)
+        self.parent_object.setIcon(QIcon(p_map))
+        self.parent_object.setIconSize(new_p_map_size)
 
 
 class Button(QPushButton):
@@ -44,8 +38,9 @@ class Button(QPushButton):
         self.name = name
         self.setObjectName(name)
         self.gif = Gif(img_path, self)
-        self.setContentsMargins(5, 5, 5, 5)
+        self.setContentsMargins(20, 20, 20, 20)
         self.clicked.connect(function)
+        self.setToolTip(f"Name: {name}\nGif: {img_path}")
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         parent.buttons.append(self)
 
