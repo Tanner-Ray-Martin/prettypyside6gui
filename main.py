@@ -7,6 +7,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.stacked_Widget = QStackedWidget(self)
         self.monitor = app.primaryScreen
+        self.stacked_Widget.addWidget(KDAExplorer())
         self.stacked_Widget.addWidget(GifViewer(0, "Main Menu", self))
         self.setCentralWidget(self.stacked_Widget)
         self.stacked_Widget.show()

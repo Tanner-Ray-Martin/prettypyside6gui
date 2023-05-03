@@ -28,8 +28,8 @@ from matplotlib.figure import Figure
 class MplCanvas(FigureCanvasQTAgg):
     def __init__(self, parent=None, width=100, height=5, dpi=100):
         fig = Figure(figsize=(width, height), dpi=dpi)
-        fig.set_facecolor("#ff0530c7")
-        fig.set_edgecolor("#14ff14c7")
+        fig.set_facecolor("#FF00F6")
+        fig.set_edgecolor("#FF00F6")
         self.axes = fig.add_subplot(111)
         self.axes.set_facecolor("#000000")
         super(MplCanvas, self).__init__(fig)
@@ -62,15 +62,18 @@ class KDAExplorer(QWidget):
         super().__init__()
         counts, dates = getTXVolume()
         self.sc = MplCanvas(self, width=10, height=5, dpi=100)
-
         self.main_layout = QGridLayout()
         self.sc.axes.plot(dates, counts)
+        for line in self.sc.axes.get_lines():
+            line.set_color("#FF00F6")
+            line.set_linestyle("dashed")
+        self.sc.axes.set_ylabel("<<< Qty >>>")
+        self.sc.axes.set_xlabel("<<< Date >>>")
         self.main_layout.addWidget(self.sc, 0, 0, 10, 10)
         self.img_label = QLabel()
-        self.img_map = QPixmap(join(IMAGES, "kda-explorer.png"))
-        self.img_label.setPixmap(self.img_map)
-        self.main_layout.addWidget(self.img_label, 0, 1, 1, 1)
-
+        self.img_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.img_map = Gif("kda-explorer.gif", self.img_label)
+        self.main_layout.addWidget(self.img_label, 0, 0, 1, 1)
         self.setLayout(self.main_layout)
         self.show()
 

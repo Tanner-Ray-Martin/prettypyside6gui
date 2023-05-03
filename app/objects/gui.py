@@ -16,6 +16,8 @@ from app import constants
 
 from os.path import join
 
+FAST_GIFS = ["black-pink-border.gif"]
+
 
 class Gif(QMovie):
     def __init__(self, img_name, parent: QPushButton | QLabel):
@@ -23,6 +25,7 @@ class Gif(QMovie):
         self.name = img_name
         self.setObjectName(img_name)
         self.parent_object = parent
+
         self.frameChanged.connect(self.updateGif)
 
         self.start()
@@ -45,7 +48,7 @@ class Gif(QMovie):
             self.parent_object.setIcon(QIcon(p_map))
             self.parent_object.setIconSize(new_p_map_size)
         elif isinstance(self.parent_object, QLabel):
-            self.setScaledSize(new_p_map_size)
+            self.parent_object.setPixmap(self.currentPixmap())
 
 
 class Button(QPushButton):
